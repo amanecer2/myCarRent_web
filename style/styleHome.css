@@ -1,0 +1,24 @@
+#logo{
+position:fixed;
+width:20%;
+height:15%;
+top:0%
+}
+
+div ,h3,h2{
+text-align:right;
+}
+header{
+text-align:center;
+}
+footer{
+position:absolute;
+    width:100%;
+    bottom:0px;
+    clear: both;
+    background-color: #B7A5DF;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+

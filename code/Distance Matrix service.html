@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Distance Matrix service</title>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    
+    <script>
+
+var origin1 = 'Rehovot, Israel';
+var destinationA = 'givat brener, israel';
+
+
+
+function calculateDistances() {
+  var service = new google.maps.DistanceMatrixService();
+  service.getDistanceMatrix(
+    {
+      origins: [origin1],
+      destinations: [destinationA],
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false
+    }, callback);
+}
+
+function callback(response, status) {
+  
+    var origins = response.originAddresses;
+    var destinations = response.destinationAddresses;
+    
+    
+var results = response.rows[0].elements;
+
+	//results[0].distance.text;   // display by string the km away
+	x = (results[0].distance.value/1000)*1.8;
+  console.log(x);
+}
+
+
+    </script>
+  </head>
+  <body >
+  <button onclick="toWorker()">to worker</button>
+    <button onclick="getLocation()">click</button>
+	<div id="content-pane">
+      <div id="inputs">
+        <pre>
+for rehovot to tel aviv
+        </pre>
+        <p><button type="button" onclick="calculateDistances();">Calculate
+          distances</button></p>
+      </div>
+      <div id="outputDiv"></div>
+    </div>
+    <div id="map-canvas"></div>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>השכרת רכב</title>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+	
+	
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="code/jQueryMobileCode.js" ></script>    <!--// my mobile functions code-->
+	<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+	<script type="text/javascript" src="code/code.js"></script>  <!--the main code-->
+	
+	<script  src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&language=he"></script>    <!--// google api-->
+	<script src="code/googleMap.js"></script>   <!-- the code for google maps with aoutucomplte, ruote display and distance-->
+	<link rel="stylesheet" href="style/styleSPA.css" /> <!---the alternatuce css style--->
+
+</head>
+<body>
+
+ <div data-role="page" id="home">
+	<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1>ברוכים הבאים אל אתר השכרת הרכבים</h1></div>
+	<div data-role="content" id="cont">
+		<div id="nav">
+		<h2>הרשמה</h2>
+		<p><a href="#register">להרשמה ובחירת רכב אנא לחץ כאן</a> </p>
+		<h2>החזרת רכב</h2>
+		<p><a href="#carBack">להחזרת הרכב חזרה לחנות אנא לחץ כאן</a></p>
+		</div>
+	</div>	
+	<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+	
+ </div>
+ 	
+	
+
+<div data-role="page" id="register">
+	<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1>הרשמה</h1></div>
+	<div data-role="content" >
+		<form method="post" data-ajax="false" onsubmit="return validForm()" ><!--so it wont send to the serever--->
+			<div data-role="fieldcontain">
+				<label for="fName">First name</label> <input name="fName" type="text" id="fName" placeholder="Enter your name" required											class="input"></input>
+				<label for="lName">last name</label> <input name="lName" type="text" id="lName" placeholder="Enter your  family name" required									class="input"></input>
+				<label for="id">ID number</label> <input name="id" type="number" id="id" placeholder="Enter ID" required pattern="[0-9]{9}"												class="input"></input>
+				<label for="eMail">E-mail</label> <input name="eMail" type="email" id="eMail" placeholder="Enter your Email" required 														class="input"></input>
+				<label for="cellphone">Cellphone number</label> <input name="cellphone" type="number" id="cellphone" placeholder="05x-xxx-xxxx" pattern="[0-9]{0}"	class="input"></input>
+				<label for="homeNum">Home number</label> <input name="homeNum" type="number" id="homeNum" placeholder="0x-xxxxxxx" pattern="[0-9]{9}" 		class="input"></input>
+				<label for="birthday">Birthday</label> <input name="birthday"  id="birthday" type="date" placeholder="dd/mm/yy" required													class="input"></input>
+				<label for="license">license</label> <input name="license"  id="license" type="number" placeholder="license" required														class="input"></input>
+				<input type="submit" value="המשך"  ></input>
+			<div id="popUpDiv" data-role="popup" data-theme="a" class="ui-corner-all" data-rel="back">
+				<p> phone number is required</p>
+			</div>
+			</div>
+		</form>
+	</div>
+	<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+ </div>
+ 	
+	<div data-role="page" id="carSelect">
+	<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1>בחירת רכב</h1></div>
+	<div data-role="content" class="cont" >
+		<div >
+			<div id="divCanvas" style="display:inline">
+			<canvas id="carCanvas"></canvas>
+			</div>			
+			<div id="carInfo">
+				<label>Car Brand 	</label><label 		id="carName">	</label><br/>
+				<label>Car Model 	</label><label 		id="carModel">	</label><br/>
+				<label>Car Gear  	</label><label 		id="carGear">	</label><br/>
+				<label>Car Number	</label><label	id="carNum">		</label><br/>
+				<label>Available 		</label><label 	id="available">	</label>
+			</div>
+		</div>
+		<div id="carChoice" data-role="fieldcontain">
+			<label for="carChoice">Choose the car you want to rent :</label>
+			<select name="carChoice" id="carChoice">
+				<option class="selectCar" value="Suzuki">Suzuki</option>
+				<option class="selectCar" value="Chevrolet">Chevrolet</option>
+				<option class="selectCar" value="Ford">Ford</option>
+				<option class="selectCar" value="Kia">Kia</option>
+				<option class="selectCar" value="Cooper">Cooper</option>
+			</select>
+			<div>
+				<button id="carWanted" onclick="carIWant()">Desire car</button>
+			</div>
+		</div>	
+	</div>		
+	<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+ </div>
+	
+<div data-role="page" id="carCost">
+	<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1>עלות נסיעה</h1></div>
+	<div data-role="content" id="cont">	
+		<label for="serach"> Where do you want to go?</label>
+		<input type="text" placeholder="Strating from?" name="serach" id="start"/>
+		<input type="text" placeholder="Ending at" name="serach" id="destanation"/>
+		<div><button id="mapSerach" onclick="initialize()">serach</button></div>
+		
+		<div id="calculatDiv"><!--ahtml5 dialog for costs calculat;--></div>	
+	</div>
+	<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+</div>
+	
+	<div data-role="page"  id="dialogDiv">
+		<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1> car cost</h1></div>
+		<div data-role="content"  id="theDialog">
+		<p>
+			your distance is: <span id="spanCarKm"></span> km.<br/>
+			the cost of this trip is:<span id="spanCarCost"></span> shekel.
+		</p>
+		<div id="canvasDiv">
+			<canvas id="mapholder" ></canvas>
+		</div>
+		
+		
+		<a href="#carCost" data-role="button" data-mini="true">Cansle</a>
+		<a href="#receipt" data-role="button" data-mini="true" id="makeReceipt">Agree</a>
+		</div>
+		<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+	</div>
+	
+	
+	
+	
+		
+		<div data-role="page" id="receipt">
+	<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1>קבלה</h1></div>
+	<div data-role="content" id="cont">
+		<div >
+		<table border = "1px" id="infoTable">
+		
+		</table>
+		</div>
+		<a href="#home" data-role="button" data-mini="true">דף בית</a>
+		<a href="#carBack" data-role="button" data-mini="true">החזרת רכב</a>
+		
+	</div>
+		
+	<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+ </div>
+	
+		
+	
+	
+<div data-role="page" id="carBack">
+	<div data-role="header"><img src="img/mam.jpg" class="mam"></img><h1>החזרת רכב</h1></div>
+	<div data-role="content" id="cont">
+	<div>
+	<label for="carNumBack">מספר הרכב שנקלח</label><input type="number" id="carBackByNum" name="carNumBack" placeholder="xxxxx" ></input>
+	<button onclick="carBack()">החזרה</button>
+	</div>
+		
+		
+		<table border="1px" id="carBackTable" >
+		
+		</table>				
+		<div id="carBackDiv">
+		
+		</div>
+		
+		
+		<div id="popUpDivReciveCar" data-role="popup" data-theme="a" class="ui-corner-all" data-rel="back">
+				<h1>the car has recived back to the shop!</h1>
+				<p>thank you and hope to deal with you latter</p>
+				<h2>הפרטים שלך נמחקים עכשיו.</h2>
+		</div>
+	</div>
+		
+	<div data-role="footer" data-position="fixed"><span class="homeYear"></span> MAM &copy כל הזכויות שמורות לחברת הרכבים </div>
+ </div>
+	
+	
+
+ <script type="text/javascript">
+ 
+
+ </script>
+</body>
+</html>
